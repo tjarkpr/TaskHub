@@ -1,3 +1,7 @@
+<p align="center">
+   <img src="https://raw.githubusercontent.com/tjarkpr/TaskHub/e2317463be82e46c0627fb8c6d209af0ed74ac0e/public/favicon.svg" alt="TaskHub Logo" width="100" height="100" />
+</p>
+
 # TaskHub
 
 TaskHub is a modern task management application built with React and TypeScript that helps you organize, track, and manage your tasks effectively. It features a clean interface with time tracking capabilities and persistent storage.
