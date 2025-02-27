@@ -69,3 +69,8 @@ button {
   align-items: center;
   padding: 10px;
 }
+
+.app-container {
+  max-width: 1000px;
+  width: 100%;
+}
