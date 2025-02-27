@@ -1,0 +1,78 @@
+.no-file-message {
+  text-align: start;
+}
+
+.file-buttons {
+  display: flex;
+  justify-content: start;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.create-file-button,
+.change-file-button,
+.open-file-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  border: none;
+}
+
+.create-file-button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.open-file-button {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.change-file-button {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.create-file-button:hover,
+.change-file-button:hover,
+.open-file-button:hover {
+  opacity: 0.9;
+}
+
+.file-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.file-name {
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.save-status {
+  font-size: 0.9rem;
+}
+
+.browser-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 5px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.file-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

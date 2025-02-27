@@ -1,0 +1,71 @@
+@font-face {
+  font-family: "Noto Sans Variable";
+  src: url("../fonts/NotoSans-VariableFont_wdth,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+:root {
+  --background-color: #ffffff;
+  --text-color: #131313;
+  --border-color: #ffffff;
+  --primary-color: #000000;
+  --secondary-color: #ffffff;
+  --font-family: "Noto Sans Variable", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+}
+
+[data-theme="dark"] {
+  --background-color: #141414;
+  --text-color: #fcfcfc;
+  --border-color: #141414;
+  --primary-color: #ffffff;
+  --secondary-color: #141414;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-regular);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.todo-item .todo-text,
+p {
+  font-weight: var(--font-weight-regular);
+  margin: 0;
+}
+
+button {
+  font-weight: var(--font-weight-medium);
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
