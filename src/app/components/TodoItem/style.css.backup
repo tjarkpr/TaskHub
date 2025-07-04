@@ -1,0 +1,195 @@
+.time-spent.editable {
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+
+.time-spent.editable:hover {
+  color: var(--primary-color);
+}
+
+.time-edit {
+  display: flex;
+  align-items: center;
+}
+
+.time-input {
+  width: 40px;
+  padding: 2px 4px;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.time-save-btn,
+.time-cancel-btn {
+  width: 24px;
+  height: 24px;
+  margin-left: 2px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-background);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.time-cancel-btn:hover,
+.time-save-btn:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.time-spent.counting {
+  color: #4caf50;
+  font-weight: bold;
+  animation: pulse 1s infinite alternate;
+}
+
+.time-tracking {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-spent {
+  font-family: monospace;
+}
+
+.start-button, .pause-button {
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.start-button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+}
+
+.pause-button {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+}
+
+.todo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 5px 5px;
+  border-left: 4px solid;
+}
+
+.todo-header,
+.todo-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.todo-number {
+  font-family: monospace;
+  font-weight: bold;
+  color: var(--text-color);
+  flex-shrink: 0;
+}
+
+.todo-status {
+  flex-shrink: 0;
+}
+
+.todo-status select {
+  width: 100%;
+  padding: 4px;
+  border: none;
+  border-bottom: 1px solid var(--primary-color);
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+.todo-text {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.todo-text.editable {
+  cursor: pointer;
+}
+
+.todo-text.editable:hover {
+  text-decoration: underline dashed;
+  color: var(--primary-color);
+}
+
+.todo-text-edit {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.text-input {
+  flex-grow: 1;
+  padding: 4px 8px;
+  border: none;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.text-save-btn, .text-cancel-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-background);
+  cursor: pointer;
+  margin-left: 2px;
+}
+
+.text-save-btn:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.text-cancel-btn:hover {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.delete-button {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.delete-button:hover {
+  background-color: #ff4444;
+  color: white;
+}
+
+.status-open {
+  border-left-color: #4a86e8;
+}
+
+.status-in-progress {
+  border-left-color: #fcba03;
+}
+
+.status-done {
+  border-left-color: #00c851;
+}
+
+.completed .todo-text {
+  text-decoration: line-through;
+  opacity: 0.7;
+}

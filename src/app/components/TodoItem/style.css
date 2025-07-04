@@ -1,98 +1,35 @@
-.time-spent.editable {
-  cursor: pointer;
-  text-decoration: underline dotted;
-}
-
-.time-spent.editable:hover {
-  color: var(--primary-color);
-}
-
-.time-edit {
-  display: flex;
-  align-items: center;
-}
-
-.time-input {
-  width: 40px;
-  padding: 2px 4px;
-  text-align: center;
-  border: none;
-  border-bottom: 1px solid var(--primary-color);
-}
-
-.time-save-btn,
-.time-cancel-btn {
-  width: 24px;
-  height: 24px;
-  margin-left: 2px;
-  border-radius: 50%;
-  border: 1px solid var(--border-color);
-  background-color: var(--card-background);
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-
-.time-cancel-btn:hover,
-.time-save-btn:hover {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-}
-
-.time-spent.counting {
-  color: #4caf50;
-  font-weight: bold;
-  animation: pulse 1s infinite alternate;
-}
-
-.time-tracking {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.time-spent {
-  font-family: monospace;
-}
-
-.start-button, .pause-button {
-  padding: 3px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-
-.start-button {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-  border: none;
-}
-
-.pause-button {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-  border: none;
-}
-
 .todo-item {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 5px 5px;
-  border-left: 4px solid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background-color: var(--card-background);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--card-border);
+  transition: all 0.2s ease;
+}
+
+.todo-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .todo-header,
 .todo-content {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.75rem;
 }
 
 .todo-number {
-  font-family: monospace;
-  font-weight: bold;
-  color: var(--text-color);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  background-color: var(--border-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
   flex-shrink: 0;
 }
 
@@ -101,27 +38,38 @@
 }
 
 .todo-status select {
-  width: 100%;
-  padding: 4px;
-  border: none;
-  border-bottom: 1px solid var(--primary-color);
-  background-color: transparent;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--secondary-color);
   color: var(--text-color);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.todo-status select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
 }
 
 .todo-text {
   flex-grow: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 1rem;
+  color: var(--text-color);
+  line-height: 1.5;
 }
 
 .todo-text.editable {
   cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
 }
 
 .todo-text.editable:hover {
-  text-decoration: underline dashed;
+  background-color: var(--border-color);
   color: var(--primary-color);
 }
 
@@ -129,67 +77,201 @@
   display: flex;
   align-items: center;
   flex-grow: 1;
+  gap: 0.5rem;
 }
 
 .text-input {
   flex-grow: 1;
-  padding: 4px 8px;
-  border: none;
-  border-bottom: 1px solid var(--primary-color);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  font-size: 1rem;
 }
 
-.text-save-btn, .text-cancel-btn {
-  width: 24px;
-  height: 24px;
+.text-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+}
+
+.text-save-btn, 
+.text-cancel-btn {
+  width: 2rem;
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-color);
   background-color: var(--card-background);
   cursor: pointer;
-  margin-left: 2px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
 }
 
 .text-save-btn:hover {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(--success-color);
+  color: white;
+  border-color: var(--success-color);
 }
 
 .text-cancel-btn:hover {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(--error-color);
+  color: white;
+  border-color: var(--error-color);
+}
+
+.time-tracking {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.time-spent {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.time-spent.editable {
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.time-spent.editable:hover {
+  background-color: var(--border-color);
+  color: var(--primary-color);
+}
+
+.time-spent.counting {
+  color: var(--success-color);
+  font-weight: var(--font-weight-bold);
+  animation: pulse 1s infinite alternate;
+}
+
+.time-edit {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.time-input {
+  width: 3rem;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  font-size: 0.875rem;
+}
+
+.time-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+}
+
+.time-save-btn,
+.time-cancel-btn {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--card-background);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.time-save-btn:hover {
+  background-color: var(--success-color);
+  color: white;
+  border-color: var(--success-color);
+}
+
+.time-cancel-btn:hover {
+  background-color: var(--error-color);
+  color: white;
+  border-color: var(--error-color);
+}
+
+.start-button, 
+.pause-button {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  border: none;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.start-button {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.start-button:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.pause-button {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+.pause-button:hover {
+  background-color: #d97706;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .delete-button {
   background-color: transparent;
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  padding: 4px 8px;
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   flex-shrink: 0;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
 }
 
 .delete-button:hover {
-  background-color: #ff4444;
+  background-color: var(--error-color);
   color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .status-open {
-  border-left-color: #4a86e8;
+  border-left: 4px solid var(--primary-color);
 }
 
 .status-in-progress {
-  border-left-color: #fcba03;
+  border-left: 4px solid var(--warning-color);
 }
 
 .status-done {
-  border-left-color: #00c851;
+  border-left: 4px solid var(--success-color);
 }
 
 .completed .todo-text {
   text-decoration: line-through;
-  opacity: 0.7;
+  color: var(--text-secondary);
 }
