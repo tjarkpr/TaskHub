@@ -10,12 +10,16 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <TodoProvider>
-        <div className="app-container">
+        <div className="app-wrapper">
           <header className="app-header">
-            <FileSelector />
-            <ThemeToggle />
+            <div className="app-header-content">
+              <FileSelector />
+              <ThemeToggle />
+            </div>
           </header>
-          <TodoList />
+          <div className="app-container">
+            <TodoList />
+          </div>
         </div>
       </TodoProvider>
     </ThemeProvider>
