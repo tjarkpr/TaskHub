@@ -11,7 +11,8 @@
 
 .create-file-button,
 .change-file-button,
-.open-file-button {
+.open-file-button,
+.download-file-button {
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -34,9 +35,15 @@
   color: var(--primary-color);
 }
 
+.download-file-button {
+  background-color: #28a745;
+  color: white;
+}
+
 .create-file-button:hover,
 .change-file-button:hover,
-.open-file-button:hover {
+.open-file-button:hover,
+.download-file-button:hover {
   opacity: 0.9;
 }
 
@@ -55,24 +62,25 @@
   font-size: 0.9rem;
 }
 
-.browser-warning {
-  background-color: #fff3cd;
-  color: #856404;
-  padding: 5px;
+.browser-info {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 8px;
   border-radius: 4px;
   margin-bottom: 10px;
+  border: 1px solid #c3e6cb;
 }
 
 .error-message {
   background-color: #f8d7da;
   color: #721c24;
-  padding: 5px;
+  padding: 8px;
   border-radius: 4px;
   margin-bottom: 10px;
+  border: 1px solid #f5c6cb;
 }
 
-.file-selected {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.loading-message {
+  color: var(--text-color);
+  font-style: italic;
 }

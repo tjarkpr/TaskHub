@@ -1,17 +1,10 @@
-import { downloadFile, readFile, createFileInput, isFileSystemAccessSupported } from '../utils/FileUtils';
-
 export class FileService {
   private static instance: FileService;
   private static readonly STORAGE_KEY = 'actionhub-file-handle';
   private fileHandle: FileSystemFileHandle | null = null;
   private autoSaveEnabled = false;
-  private currentFileName: string = '';
-  private currentFileData: any = null;
-  private useFileSystemAccess: boolean = false;
   
-  private constructor() {
-    this.useFileSystemAccess = isFileSystemAccessSupported();
-  }
+  private constructor() {}
 
   public static getInstance(): FileService {
     if (!FileService.instance) {
@@ -21,8 +14,6 @@ export class FileService {
   }
 
   private async storeFileHandle(fileHandle: FileSystemFileHandle): Promise<void> {
-    if (!this.useFileSystemAccess) return;
-    
     try {
       console.log("Attempting to store file handle for:", fileHandle.name);
       const db = await this.openDatabase();
@@ -60,8 +51,6 @@ export class FileService {
   }
 
   private async requestPersistPermission(): Promise<void> {
-    if (!this.useFileSystemAccess) return;
-    
     try {
       if ((navigator as any).permissions) {
         const permission = await (navigator as any).permissions.query({
@@ -97,8 +86,6 @@ export class FileService {
   }
 
   public async tryLoadSavedFile(): Promise<boolean> {
-    if (!this.useFileSystemAccess) return false;
-    
     try {
       const db = await this.openDatabase();
       const transaction = db.transaction(['fileHandles'], 'readonly');
@@ -114,7 +101,6 @@ export class FileService {
           try {
             await (fileHandle as any).requestPermission({ mode: 'readwrite' });
             this.fileHandle = fileHandle;
-            this.currentFileName = fileHandle.name;
             this.autoSaveEnabled = true;
             resolve(true);
           } catch (err) {
@@ -134,14 +120,6 @@ export class FileService {
   }
 
   public async createNewFile(): Promise<boolean> {
-    if (this.useFileSystemAccess) {
-      return this.createNewFileModern();
-    } else {
-      return this.createNewFileFallback();
-    }
-  }
-
-  private async createNewFileModern(): Promise<boolean> {
     try {
       console.log("Creating new file...");
       const fileHandle = await (window as any).showSaveFilePicker({
@@ -155,7 +133,6 @@ export class FileService {
       });
       console.log("File handle created:", fileHandle.name);
       this.fileHandle = fileHandle;
-      this.currentFileName = fileHandle.name;
       const initialData = {
         todos: [],
         nextNumber: 1,
@@ -180,28 +157,7 @@ export class FileService {
     }
   }
 
-  private async createNewFileFallback(): Promise<boolean> {
-    console.log("Creating new file (fallback mode)...");
-    this.currentFileName = 'todolist.actionhub';
-    const initialData = {
-      todos: [],
-      nextNumber: 1,
-      availableNumbers: []
-    };
-    this.currentFileData = initialData;
-    this.setAutoSave(true);
-    return true;
-  }
-
   public async openExistingFile(): Promise<boolean> {
-    if (this.useFileSystemAccess) {
-      return this.openExistingFileModern();
-    } else {
-      return this.openExistingFileFallback();
-    }
-  }
-
-  private async openExistingFileModern(): Promise<boolean> {
     try {
       console.log("Opening existing file...");
       const [fileHandle] = await (window as any).showOpenFilePicker({
@@ -214,7 +170,6 @@ export class FileService {
       });
       console.log("File handle obtained:", fileHandle.name);
       this.fileHandle = fileHandle;
-      this.currentFileName = fileHandle.name;
       this.setAutoSave(true);
       try {
         await this.storeFileHandle(fileHandle);
@@ -229,40 +184,7 @@ export class FileService {
     }
   }
 
-  private async openExistingFileFallback(): Promise<boolean> {
-    try {
-      console.log("Opening existing file (fallback mode)...");
-      const fileList = await createFileInput('.actionhub,application/json', false);
-      if (!fileList || fileList.length === 0) {
-        console.log("No file selected");
-        return false;
-      }
-      
-      const file = fileList[0];
-      const content = await readFile(file);
-      const data = JSON.parse(content);
-      
-      this.currentFileName = file.name;
-      this.currentFileData = data;
-      this.setAutoSave(true);
-      
-      console.log("File loaded successfully:", file.name);
-      return true;
-    } catch (err) {
-      console.error('Error opening file:', err);
-      return false;
-    }
-  }
-
   public async changeFile(): Promise<boolean> {
-    if (this.useFileSystemAccess) {
-      return this.changeFileModern();
-    } else {
-      return this.openExistingFileFallback(); // Same as opening in fallback mode
-    }
-  }
-
-  private async changeFileModern(): Promise<boolean> {
     try {
       console.log("Changing file...");
       const [fileHandle] = await (window as any).showOpenFilePicker({
@@ -279,7 +201,6 @@ export class FileService {
       }
       console.log("New file handle obtained:", fileHandle.name);
       this.fileHandle = fileHandle;
-      this.currentFileName = fileHandle.name;
       this.setAutoSave(true);
       try {
         await this.storeFileHandle(fileHandle);
@@ -296,7 +217,7 @@ export class FileService {
   }
 
   public shouldAutoSave(): boolean {
-    return this.autoSaveEnabled && (this.useFileSystemAccess ? this.fileHandle !== null : this.currentFileData !== null);
+    return this.autoSaveEnabled && this.fileHandle !== null;
   }
   
   public setAutoSave(enabled: boolean): void {
@@ -304,14 +225,6 @@ export class FileService {
   }
   
   public async saveTaskData(data: any): Promise<boolean> {
-    if (this.useFileSystemAccess) {
-      return this.saveTaskDataModern(data);
-    } else {
-      return this.saveTaskDataFallback(data);
-    }
-  }
-
-  private async saveTaskDataModern(data: any): Promise<boolean> {
     if (!this.fileHandle) {
       console.warn('No file handle available for saving');
       return false;
@@ -327,29 +240,8 @@ export class FileService {
       return false;
     }
   }
-
-  private async saveTaskDataFallback(data: any): Promise<boolean> {
-    try {
-      this.currentFileData = data;
-      // In fallback mode, we just store the data in memory
-      // The user can manually download it when needed
-      console.log('Data saved in memory (fallback mode)');
-      return true;
-    } catch (err) {
-      console.error('Error saving data in fallback mode:', err);
-      return false;
-    }
-  }
-
+  
   public async loadTaskData(): Promise<any | null> {
-    if (this.useFileSystemAccess) {
-      return this.loadTaskDataModern();
-    } else {
-      return this.loadTaskDataFallback();
-    }
-  }
-
-  private async loadTaskDataModern(): Promise<any | null> {
     if (!this.fileHandle) {
       console.warn('No file handle available for loading');
       return null;
@@ -366,32 +258,13 @@ export class FileService {
       return null;
     }
   }
-
-  private async loadTaskDataFallback(): Promise<any | null> {
-    return this.currentFileData;
-  }
   
   public isFileSelected(): boolean {
-    return this.useFileSystemAccess ? this.fileHandle !== null : this.currentFileData !== null;
+    return this.fileHandle !== null;
   }
   
   public getFileName(): string {
-    return this.currentFileName || '';
-  }
-
-  public isUsingFileSystemAccess(): boolean {
-    return this.useFileSystemAccess;
-  }
-
-  public downloadCurrentFile(): void {
-    if (!this.currentFileData) {
-      console.error('No data available for download');
-      return;
-    }
-    
-    const jsonData = JSON.stringify(this.currentFileData, null, 2);
-    const filename = this.currentFileName || 'todolist.actionhub';
-    downloadFile(jsonData, filename);
+    return this.fileHandle ? this.fileHandle.name : '';
   }
 }
 
