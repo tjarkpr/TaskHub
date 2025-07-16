@@ -130,7 +130,7 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
     return success;
   };
 
-  const addTodo = (text: string) => {
+  const addTodo = (text: string, dueDate?: Date) => {
     const newTodo: Todo = {
       id: uuidv4(),
       number: getNextTicketNumber(),
@@ -138,7 +138,8 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
       status: 'Open',
       timeLogs: [],
       isTracking: false,
-      totalTimeSpent: 0
+      totalTimeSpent: 0,
+      dueDate
     };
     
     updateTodos([...todos, newTodo]);
@@ -167,6 +168,12 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
   const updateTodoText = (id: string, newText: string) => {
     updateTodos(todos.map(todo =>
       todo.id === id ? { ...todo, text: newText } : todo
+    ));
+  };
+  
+  const updateTodoDueDate = (id: string, dueDate?: Date) => {
+    updateTodos(todos.map(todo =>
+      todo.id === id ? { ...todo, dueDate } : todo
     ));
   };
   
@@ -229,6 +236,7 @@ export const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
       pauseTimeTracking,
       updateTodoTime,
       updateTodoText,
+      updateTodoDueDate,
       createNewFile,
       openExistingFile,
       changeFile,

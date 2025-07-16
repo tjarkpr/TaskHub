@@ -13,7 +13,8 @@ const TodoList: React.FC = () => {
     startTimeTracking,
     pauseTimeTracking,
     updateTodoTime,
-    updateTodoText
+    updateTodoText,
+    updateTodoDueDate
   } = useTodoContext();
   
   const activeTodos = todos.filter(todo => todo.status !== 'Done');
@@ -38,6 +39,7 @@ const TodoList: React.FC = () => {
                 onPauseTracking={pauseTimeTracking}
                 onUpdateTime={updateTodoTime}
                 onUpdateText={updateTodoText}
+                onUpdateDueDate={updateTodoDueDate}
               />
             ))}
           </div>
@@ -61,6 +63,7 @@ const TodoList: React.FC = () => {
                 onPauseTracking={pauseTimeTracking}
                 onUpdateTime={updateTodoTime}
                 onUpdateText={updateTodoText}
+                onUpdateDueDate={updateTodoDueDate}
               />
             ))}
           </div>

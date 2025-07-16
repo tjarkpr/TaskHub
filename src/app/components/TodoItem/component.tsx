@@ -11,6 +11,7 @@ interface TodoItemProps {
   onPauseTracking: (id: string) => void;
   onUpdateTime: (id: string, newTimeInMs: number) => void;
   onUpdateText: (id: string, newText: string) => void;
+  onUpdateDueDate: (id: string, dueDate?: Date) => void;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({
@@ -21,7 +22,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
   onStartTracking,
   onPauseTracking,
   onUpdateTime,
-  onUpdateText
+  onUpdateText,
+  onUpdateDueDate
 }) => {
   const [displayTime, setDisplayTime] = useState(todo.totalTimeSpent);
   const [isEditingTime, setIsEditingTime] = useState(false);
@@ -30,6 +32,10 @@ const TodoItem: React.FC<TodoItemProps> = ({
   const [seconds, setSeconds] = useState(0);
   const [isEditingText, setIsEditingText] = useState(false);
   const [editedText, setEditedText] = useState(todo.text);
+  const [isEditingDueDate, setIsEditingDueDate] = useState(false);
+  const [editedDueDate, setEditedDueDate] = useState(
+    todo.dueDate ? todo.dueDate.toISOString().split('T')[0] : ''
+  );
 
   const startTimeEdit = () => {
     if (todo.isTracking) return;
@@ -75,6 +81,30 @@ const TodoItem: React.FC<TodoItemProps> = ({
     }
   };
 
+  const startDueDateEdit = () => {
+    setEditedDueDate(todo.dueDate ? todo.dueDate.toISOString().split('T')[0] : '');
+    setIsEditingDueDate(true);
+  };
+
+  const saveDueDateEdit = () => {
+    const newDueDate = editedDueDate ? new Date(editedDueDate) : undefined;
+    onUpdateDueDate(todo.id, newDueDate);
+    setIsEditingDueDate(false);
+  };
+
+  const cancelDueDateEdit = () => {
+    setEditedDueDate(todo.dueDate ? todo.dueDate.toISOString().split('T')[0] : '');
+    setIsEditingDueDate(false);
+  };
+
+  const handleDueDateKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      saveDueDateEdit();
+    } else if (e.key === 'Escape') {
+      cancelDueDateEdit();
+    }
+  };
+
   useEffect(() => {
     if (!todo.isTracking) {
       setDisplayTime(todo.totalTimeSpent);
@@ -109,6 +139,18 @@ const TodoItem: React.FC<TodoItemProps> = ({
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
+  const formatDueDate = (date: Date): string => {
+    return date.toLocaleDateString();
+  };
+
+  const isDueDateOverdue = (date: Date): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dueDate = new Date(date);
+    dueDate.setHours(0, 0, 0, 0);
+    return dueDate < today;
+  };
+
   return (
     <div className={`todo-item ${getStatusColor()} ${todo.status === 'Done' ? 'completed' : ''}`}>
       <div className='todo-header'>
@@ -123,7 +165,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
           </select>
         </div>
         <div className="time-tracking">
-          {todo.status === 'In Progress' && !isEditingTime && !isEditingText && (
+          {todo.status === 'In Progress' && !isEditingTime && !isEditingText && !isEditingDueDate && (
             <>
               {!todo.isTracking ? (
                 <button 
@@ -182,7 +224,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             </span>
           )}
         </div>
-        {todo.status === 'Done' && !isEditingText && !isEditingTime && (
+        {todo.status === 'Done' && !isEditingText && !isEditingTime && !isEditingDueDate && (
           <button 
             className="delete-button" 
             onClick={() => onDelete(todo.id)}
@@ -217,6 +259,42 @@ const TodoItem: React.FC<TodoItemProps> = ({
             {todo.text}
           </span>
         )}
+        <div className="todo-due-date">
+          {isEditingDueDate ? (
+            <div className="due-date-edit">
+              <input
+                type="date"
+                value={editedDueDate}
+                onChange={(e) => setEditedDueDate(e.target.value)}
+                onKeyDown={handleDueDateKeyDown}
+                className="due-date-input"
+                autoFocus
+              />
+              <button onClick={saveDueDateEdit} className="due-date-save-btn">✓</button>
+              <button onClick={cancelDueDateEdit} className="due-date-cancel-btn">✗</button>
+            </div>
+          ) : (
+            <>
+              {todo.dueDate ? (
+                <span 
+                  className={`due-date ${isDueDateOverdue(todo.dueDate) ? 'overdue' : ''} editable`}
+                  onDoubleClick={startDueDateEdit}
+                  title="Double-click to edit due date"
+                >
+                  Due: {formatDueDate(todo.dueDate)}
+                </span>
+              ) : (
+                <button 
+                  className="add-due-date-btn"
+                  onClick={startDueDateEdit}
+                  title="Add due date"
+                >
+                  + Add Due Date
+                </button>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

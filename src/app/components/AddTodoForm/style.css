@@ -1,11 +1,20 @@
 .add-todo-form {
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
   border-left: 4px solid var(--primary-color);
   padding: 5px;
 }
 
-.add-todo-form input {
+.add-todo-form input[type="text"] {
+  flex: 2;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid var(--primary-color);
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+.add-todo-form input[type="date"] {
   flex: 1;
   padding: 10px;
   border: none;
@@ -15,10 +24,10 @@
 }
 
 .add-todo-form button {
-  margin-left: 5px;
   padding: 10px 15px;
   background-color: var(--primary-color);
   color: var(--secondary-color);
   border: none;
   border-radius: 4px;
+  flex-shrink: 0;
 }

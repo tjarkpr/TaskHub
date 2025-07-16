@@ -15,6 +15,7 @@ interface Todo {
   timeLogs: TimeLog[];
   isTracking: boolean;
   totalTimeSpent: number;
+  dueDate?: Date;
 }
 
 interface TodoProviderProps {
@@ -29,7 +30,7 @@ interface SavedState {
 
 interface TodoContextType {
   todos: Todo[];
-  addTodo: (text: string) => void;
+  addTodo: (text: string, dueDate?: Date) => void;
   removeTodo: (id: string) => void;
   toggleTodo: (id: string) => void;
   updateTodoStatus: (id: string, status: TodoStatus) => void;
@@ -37,6 +38,7 @@ interface TodoContextType {
   pauseTimeTracking: (id: string) => void;
   updateTodoTime: (id: string, newTimeInMs: number) => void;
   updateTodoText: (id: string, newText: string) => void;
+  updateTodoDueDate: (id: string, dueDate?: Date) => void;
   createNewFile: () => Promise<boolean>;
   openExistingFile: () => Promise<boolean>;
   changeFile: () => Promise<boolean>;
